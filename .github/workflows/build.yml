@@ -1,0 +1,26 @@
+name: Build Script for Data Processing
+
+on:							
+  push:
+    branches: [ "main" ]			
+
+jobs:
+  build:						
+    runs-on: ubuntu-latest			
+    steps:
+      - uses: actions/checkout@v4		
+        
+      - name: Compile File
+        run: gcc -o clean clean.c; chmod +x clean; ./clean < wbcd.txt > cleaned_wbcd.txt
+
+      - name: Upload Executable
+        uses: actions/upload-artifact@v4	
+        with:
+          name: Executable
+          path: ./clean
+
+      - name: Upload Cleaned Data
+        uses: actions/upload-artifact@v4	
+        with:
+          name: Cleaned Data
+          path: ./cleaned_wbcd.txt
